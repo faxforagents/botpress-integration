@@ -1,0 +1,10 @@
+{
+  "name": "fax-approval-bot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "bp add -y && bp build",
+    "check:type": "tsc --noEmit"
+  },
+  "bpDependencies": { "faxforagents": "../../" }
+}

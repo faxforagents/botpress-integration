@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { ".botpress": ["./.botpress"] },
+    "outDir": "dist"
+  },
+  "include": [".botpress/**/*", "bp_modules/**/*", "src/**/*", "*.ts"]
+}

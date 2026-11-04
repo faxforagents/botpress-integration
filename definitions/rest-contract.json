@@ -1,0 +1,1740 @@
+{
+  "source": "https://github.com/faxforagents/openapi/blob/main/openapi.yaml",
+  "retrieved": "2026-11-04",
+  "sha256": "44ad09d1e3d015db0e155991fc6fc326bc577c607ddc0013bd2b6e68ef14a90f",
+  "schemas": {
+    "Document": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status"
+        },
+        "source": {
+          "type": "string",
+          "title": "Source"
+        },
+        "filename": {
+          "type": "string",
+          "title": "Filename"
+        },
+        "content_type": {
+          "type": "string",
+          "title": "Content Type"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "title": "Size Bytes"
+        },
+        "sha256": {
+          "type": "string",
+          "title": "Sha256"
+        },
+        "page_count": {
+          "type": "integer",
+          "title": "Page Count"
+        },
+        "render_status": {
+          "type": "string",
+          "title": "Render Status"
+        },
+        "render_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Render Reason"
+        },
+        "validation": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Validation"
+        },
+        "upload_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Upload Id"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "Created At"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "deleted_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Deleted At"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "environment",
+        "status",
+        "source",
+        "filename",
+        "content_type",
+        "size_bytes",
+        "sha256",
+        "page_count",
+        "render_status",
+        "render_reason",
+        "validation",
+        "upload_id",
+        "created_at",
+        "expires_at",
+        "deleted_at"
+      ],
+      "title": "Document"
+    },
+    "DocumentPages": {
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "title": "Document Id"
+        },
+        "page_count": {
+          "type": "integer",
+          "title": "Page Count"
+        },
+        "render_status": {
+          "type": "string",
+          "title": "Render Status"
+        },
+        "render_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Render Reason"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/components/schemas/PagePreview"
+          },
+          "type": "array",
+          "title": "Items"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "document_id",
+        "page_count",
+        "render_status",
+        "render_reason",
+        "items"
+      ],
+      "title": "DocumentPages"
+    },
+    "PagePreview": {
+      "properties": {
+        "page_number": {
+          "type": "integer",
+          "title": "Page Number"
+        },
+        "width_px": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Width Px"
+        },
+        "height_px": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Height Px"
+        },
+        "url": {
+          "type": "string",
+          "title": "Url"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "page_number",
+        "width_px",
+        "height_px",
+        "url"
+      ],
+      "title": "PagePreview"
+    },
+    "Quote": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "document_id": {
+          "type": "string",
+          "title": "Document Id"
+        },
+        "document_sha256": {
+          "type": "string",
+          "title": "Document Sha256"
+        },
+        "to": {
+          "type": "string",
+          "title": "To"
+        },
+        "from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From"
+        },
+        "route": {
+          "type": "string",
+          "title": "Route"
+        },
+        "document_pages": {
+          "type": "integer",
+          "title": "Document Pages"
+        },
+        "cover_pages": {
+          "type": "integer",
+          "title": "Cover Pages"
+        },
+        "billable_pages": {
+          "type": "integer",
+          "title": "Billable Pages"
+        },
+        "amount_micro": {
+          "type": "integer",
+          "title": "Amount Micro"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency"
+        },
+        "price_version": {
+          "type": "string",
+          "title": "Price Version"
+        },
+        "per_page_micro": {
+          "type": "integer",
+          "title": "Per Page Micro",
+          "default": 0
+        },
+        "route_label": {
+          "type": "string",
+          "title": "Route Label",
+          "default": ""
+        },
+        "cover": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cover"
+        },
+        "authorization_required": {
+          "type": "boolean",
+          "title": "Authorization Required"
+        },
+        "warnings": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "array",
+          "title": "Warnings"
+        },
+        "expires_at": {
+          "type": "string",
+          "title": "Expires At"
+        },
+        "expired": {
+          "type": "boolean",
+          "title": "Expired"
+        },
+        "consumed_by_job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Consumed By Job Id"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "Created At"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "environment",
+        "document_id",
+        "document_sha256",
+        "to",
+        "route",
+        "document_pages",
+        "cover_pages",
+        "billable_pages",
+        "amount_micro",
+        "currency",
+        "price_version",
+        "cover",
+        "authorization_required",
+        "warnings",
+        "expires_at",
+        "expired",
+        "consumed_by_job_id",
+        "created_at"
+      ],
+      "title": "Quote"
+    },
+    "FaxJob": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "direction": {
+          "type": "string",
+          "title": "Direction"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "active",
+            "partial",
+            "failed",
+            "unknown",
+            "delivered"
+          ],
+          "title": "State"
+        },
+        "failure_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Failure Code"
+        },
+        "to": {
+          "type": "string",
+          "title": "To"
+        },
+        "from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From"
+        },
+        "route": {
+          "type": "string",
+          "title": "Route"
+        },
+        "document_id": {
+          "type": "string",
+          "title": "Document Id"
+        },
+        "document_sha256": {
+          "type": "string",
+          "title": "Document Sha256"
+        },
+        "transmitted_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Transmitted Sha256"
+        },
+        "quote_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Quote Id"
+        },
+        "billable_pages": {
+          "type": "integer",
+          "title": "Billable Pages"
+        },
+        "cover_pages": {
+          "type": "integer",
+          "title": "Cover Pages"
+        },
+        "pages_sent": {
+          "type": "integer",
+          "title": "Pages Sent"
+        },
+        "amount_micro": {
+          "type": "integer",
+          "title": "Amount Micro"
+        },
+        "captured_micro": {
+          "type": "integer",
+          "title": "Captured Micro"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency"
+        },
+        "provider": {
+          "type": "string",
+          "title": "Provider"
+        },
+        "provider_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Provider Ref"
+        },
+        "client_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Client Reference"
+        },
+        "attempt_count": {
+          "type": "integer",
+          "title": "Attempt Count"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "Created At"
+        },
+        "updated_at": {
+          "type": "string",
+          "title": "Updated At"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Completed At"
+        },
+        "cancel_requested_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cancel Requested At"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evidence",
+          "description": "The carrier's evidence once delivered or partial; null before."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "environment",
+        "direction",
+        "state",
+        "failure_code",
+        "to",
+        "route",
+        "document_id",
+        "document_sha256",
+        "transmitted_sha256",
+        "quote_id",
+        "billable_pages",
+        "cover_pages",
+        "pages_sent",
+        "amount_micro",
+        "captured_micro",
+        "currency",
+        "provider",
+        "provider_ref",
+        "client_reference",
+        "attempt_count",
+        "created_at",
+        "updated_at",
+        "completed_at",
+        "cancel_requested_at"
+      ],
+      "title": "FaxJob"
+    },
+    "FaxJobPage": {
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/components/schemas/FaxJob"
+          },
+          "type": "array",
+          "title": "Items"
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Cursor"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "title": "FaxJobPage"
+    },
+    "AttemptPage": {
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/components/schemas/Attempt"
+          },
+          "type": "array",
+          "title": "Items"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "title": "AttemptPage"
+    },
+    "Attempt": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "fax_job_id": {
+          "type": "string",
+          "title": "Fax Job Id"
+        },
+        "attempt_number": {
+          "type": "integer",
+          "title": "Attempt Number"
+        },
+        "provider": {
+          "type": "string",
+          "title": "Provider"
+        },
+        "provider_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Provider Ref"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status"
+        },
+        "pages_sent": {
+          "type": "integer",
+          "title": "Pages Sent"
+        },
+        "failure_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Failure Code"
+        },
+        "evidence": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evidence"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "started_at": {
+          "type": "string",
+          "title": "Started At"
+        },
+        "finished_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Finished At"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "fax_job_id",
+        "attempt_number",
+        "provider",
+        "provider_ref",
+        "status",
+        "pages_sent",
+        "failure_code",
+        "evidence",
+        "error",
+        "started_at",
+        "finished_at"
+      ],
+      "title": "Attempt"
+    },
+    "ApprovalRequest": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "send",
+            "help"
+          ],
+          "title": "Kind"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "approved",
+            "rejected",
+            "revoked",
+            "expired"
+          ],
+          "title": "Status"
+        },
+        "quote_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Quote Id"
+        },
+        "bound": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Bound"
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Message"
+        },
+        "requested_by": {
+          "type": "string",
+          "title": "Requested By"
+        },
+        "decided_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Decided By"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "consumed_by_job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Consumed By Job Id"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "Created At"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "decided_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Decided At"
+        },
+        "notified": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notified",
+          "description": "On creation: whether the organization was mailed. false when the request repeats a pending one or the organization's daily cap of request mails is reached; the request is still shown in the dashboard."
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "quote_id",
+        "bound",
+        "message",
+        "requested_by",
+        "decided_by",
+        "reason",
+        "consumed_by_job_id",
+        "created_at",
+        "expires_at",
+        "decided_at"
+      ],
+      "title": "ApprovalRequest"
+    },
+    "InboxPage": {
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/components/schemas/InboxItem"
+          },
+          "type": "array",
+          "title": "Items"
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Cursor"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "title": "InboxPage"
+    },
+    "InboxItem": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From"
+        },
+        "to": {
+          "type": "string",
+          "title": "To"
+        },
+        "pages": {
+          "type": "integer",
+          "title": "Pages"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status"
+        },
+        "document_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Document Id"
+        },
+        "received_at": {
+          "type": "string",
+          "title": "Received At"
+        },
+        "amount_micro": {
+          "type": "integer",
+          "title": "Amount Micro",
+          "default": 0
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Note"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment",
+          "default": "live"
+        },
+        "number_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Number Id"
+        },
+        "project_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Project Id"
+        },
+        "partial_content": {
+          "type": "boolean",
+          "title": "Partial Content",
+          "default": false
+        },
+        "media_status": {
+          "type": "string",
+          "title": "Media Status",
+          "default": "stored"
+        },
+        "duration_secs": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Duration Secs"
+        },
+        "provider": {
+          "type": "string",
+          "title": "Provider",
+          "default": ""
+        },
+        "read_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Read At"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "to",
+        "pages",
+        "status",
+        "document_id",
+        "received_at"
+      ],
+      "title": "InboxItem"
+    },
+    "InboxItemDetail": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "from": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "From"
+        },
+        "to": {
+          "type": "string",
+          "title": "To"
+        },
+        "pages": {
+          "type": "integer",
+          "title": "Pages"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status"
+        },
+        "document_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Document Id"
+        },
+        "received_at": {
+          "type": "string",
+          "title": "Received At"
+        },
+        "amount_micro": {
+          "type": "integer",
+          "title": "Amount Micro",
+          "default": 0
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Note"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment",
+          "default": "live"
+        },
+        "number_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Number Id"
+        },
+        "project_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Project Id"
+        },
+        "partial_content": {
+          "type": "boolean",
+          "title": "Partial Content",
+          "default": false
+        },
+        "media_status": {
+          "type": "string",
+          "title": "Media Status",
+          "default": "stored"
+        },
+        "duration_secs": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Duration Secs"
+        },
+        "provider": {
+          "type": "string",
+          "title": "Provider",
+          "default": ""
+        },
+        "read_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Read At"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expires At"
+        },
+        "document": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Document"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Text"
+        },
+        "extraction_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Extraction Id"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "to",
+        "pages",
+        "status",
+        "document_id",
+        "received_at"
+      ],
+      "title": "InboxItemDetail"
+    },
+    "Extraction": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "extract",
+            "classify",
+            "summarize"
+          ],
+          "title": "Kind"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "queued",
+            "running",
+            "completed",
+            "failed"
+          ],
+          "title": "Status"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "document_id": {
+          "type": "string",
+          "title": "Document Id"
+        },
+        "inbox_item_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Inbox Item Id"
+        },
+        "schema_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Schema Id"
+        },
+        "schema": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Schema"
+        },
+        "options": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Options"
+        },
+        "pages_requested": {
+          "type": "integer",
+          "title": "Pages Requested"
+        },
+        "pages_processed": {
+          "type": "integer",
+          "title": "Pages Processed"
+        },
+        "pages_escalated": {
+          "type": "integer",
+          "title": "Pages Escalated"
+        },
+        "document_pages": {
+          "type": "integer",
+          "title": "Document Pages",
+          "description": "The document's page count. Above pages_processed on a completed row means the cap left pages unread; output.truncated and a warning say so."
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Confidence"
+        },
+        "pages": {
+          "items": {
+            "$ref": "#/components/schemas/ExtractionPage"
+          },
+          "type": "array",
+          "title": "Pages"
+        },
+        "output": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Output"
+        },
+        "models": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Models"
+        },
+        "price_micro": {
+          "type": "integer",
+          "title": "Price Micro"
+        },
+        "provider_cost_micro": {
+          "type": "integer",
+          "title": "Provider Cost Micro"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error Code"
+        },
+        "created_by": {
+          "type": "string",
+          "title": "Created By"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "Created At"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Started At"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Completed At"
+        },
+        "corrections": {
+          "anyOf": [
+            {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Corrections"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "environment",
+        "document_id",
+        "inbox_item_id",
+        "schema_id",
+        "options",
+        "pages_requested",
+        "pages_processed",
+        "pages_escalated",
+        "document_pages",
+        "confidence",
+        "pages",
+        "output",
+        "models",
+        "price_micro",
+        "provider_cost_micro",
+        "currency",
+        "error_code",
+        "created_by",
+        "created_at",
+        "started_at",
+        "completed_at"
+      ],
+      "title": "Extraction"
+    },
+    "ExtractionPage": {
+      "properties": {
+        "page": {
+          "type": "integer",
+          "title": "Page"
+        },
+        "text": {
+          "type": "string",
+          "title": "Text"
+        },
+        "confidence": {
+          "type": "number",
+          "title": "Confidence"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Language"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status"
+        },
+        "model": {
+          "type": "string",
+          "title": "Model"
+        },
+        "escalated": {
+          "type": "boolean",
+          "title": "Escalated",
+          "default": false
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Warnings",
+          "default": []
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "page",
+        "text",
+        "confidence",
+        "status",
+        "model"
+      ],
+      "title": "ExtractionPage"
+    },
+    "ExtractionPageList": {
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/components/schemas/Extraction"
+          },
+          "type": "array",
+          "title": "Items"
+        },
+        "next_cursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Cursor"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "title": "ExtractionPageList"
+    },
+    "Capabilities": {
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "provider": {
+          "type": "string",
+          "title": "Provider"
+        },
+        "send": {
+          "type": "boolean",
+          "title": "Send"
+        },
+        "receive": {
+          "type": "boolean",
+          "title": "Receive"
+        },
+        "numbers": {
+          "type": "boolean",
+          "title": "Numbers"
+        },
+        "routes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Routes"
+        },
+        "formats": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Formats"
+        },
+        "max_pages": {
+          "type": "integer",
+          "title": "Max Pages"
+        },
+        "max_upload_bytes": {
+          "type": "integer",
+          "title": "Max Upload Bytes"
+        },
+        "price_version": {
+          "type": "string",
+          "title": "Price Version"
+        },
+        "rates": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Rates"
+        },
+        "scopes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Scopes"
+        },
+        "approvals": {
+          "type": "boolean",
+          "title": "Approvals"
+        },
+        "limits": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "type": "object",
+          "title": "Limits"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "environment",
+        "provider",
+        "send",
+        "receive",
+        "numbers",
+        "routes",
+        "formats",
+        "max_pages",
+        "max_upload_bytes",
+        "price_version",
+        "rates",
+        "scopes",
+        "approvals",
+        "limits"
+      ],
+      "title": "Capabilities"
+    },
+    "Me": {
+      "properties": {
+        "org_id": {
+          "type": "string",
+          "title": "Org Id"
+        },
+        "project_id": {
+          "type": "string",
+          "title": "Project Id"
+        },
+        "key_id": {
+          "type": "string",
+          "title": "Key Id"
+        },
+        "key_prefix": {
+          "type": "string",
+          "title": "Key Prefix"
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "scopes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Scopes"
+        },
+        "actor": {
+          "type": "string",
+          "title": "Actor"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "org_id",
+        "project_id",
+        "key_id",
+        "key_prefix",
+        "environment",
+        "scopes",
+        "actor"
+      ],
+      "title": "Me"
+    },
+    "Balance": {
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test"
+          ],
+          "title": "Environment"
+        },
+        "currency": {
+          "type": "string",
+          "title": "Currency"
+        },
+        "available_micro": {
+          "type": "integer",
+          "title": "Available Micro"
+        },
+        "held_micro": {
+          "type": "integer",
+          "title": "Held Micro"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "environment",
+        "currency",
+        "available_micro",
+        "held_micro"
+      ],
+      "title": "Balance"
+    }
+  }
+}

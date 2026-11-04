@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM"],
+    "module": "NodeNext",
+    "target": "ES2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "NodeNext",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": { ".botpress": ["./.botpress"] },
+    "outDir": "dist"
+  },
+  "include": [".botpress/**/*", "definitions/**/*", "src/**/*", "tests/**/*", "*.ts"],
+  "exclude": ["vitest.config.ts", "node_modules"]
+}

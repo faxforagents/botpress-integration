@@ -1,0 +1,16 @@
+node_modules/
+.botpress/
+**/.botpress/
+bp_modules/
+**/bp_modules/
+dist/
+.npm-cache/
+.bp-home/
+.env
+.env.*
+!.env.example
+.coding-agent/research/
+coverage/
+.coding-agent/codex.out
+.coding-agent/codex.err
+.coding-agent/

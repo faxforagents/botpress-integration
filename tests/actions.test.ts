@@ -4,7 +4,8 @@ import { execute, register } from '../src/actions'
 import { actions, type ActionName } from '../definitions/actions'
 import definition from '../integration.definition'
 import catalog from '../definitions/tool-definitions.json'
-import { config, liveConfig, ids, fixture, review, extraction, fakeSDK } from './helpers'
+import pkg from '../package.json'
+import { config, liveConfig, ids, fixture, review, extraction, identity, fakeSDK } from './helpers'
 
 const key = 'case-2026-11-04:operation-1'
 const inputs: Record<ActionName, unknown> = {
@@ -25,7 +26,8 @@ describe('definition and action contract', () => {
     const names = Object.keys(catalog.tools).map((name) => name.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase()))
     expect(Object.keys(actions).sort()).toEqual([...names, 'sendFax'].sort())
     expect(definition.name).toBe('faxforagents')
-    expect(definition.version).toBe('0.1.0')
+    expect(definition.version).toBe(pkg.version)
+    expect(definition.version).toBe('0.1.1')
   })
   it.each(Object.keys(actions) as ActionName[])('%s returns the advertised output schema', async (name) => {
     const { factory } = fakeSDK()
@@ -37,11 +39,23 @@ describe('definition and action contract', () => {
 })
 
 describe('configuration and registration', () => {
-  it('authenticates using capabilities', async () => {
+  it('authenticates using the key identity', async () => {
     const { client, factory } = fakeSDK()
     await register(config, factory)
-    expect(client.platform.capabilities).toHaveBeenCalledOnce()
+    expect(client.identity.me).toHaveBeenCalledOnce()
+    expect(client.platform.capabilities).not.toHaveBeenCalled()
     expect(factory).toHaveBeenCalledWith(config.apiKey)
+  })
+  it('registers a key without approval:decide although the platform catalogue lists it', async () => {
+    const { client, factory } = fakeSDK()
+    client.platform.capabilities.mockResolvedValue({ ...fixture('Capabilities'), scopes: ['fax:read', 'approval:decide'] })
+    client.identity.me.mockResolvedValue(identity({ scopes: ['fax:read', 'fax:send', 'approval:request'] }))
+    await expect(register(config, factory)).resolves.toBeUndefined()
+  })
+  it('rejects an identity response without scopes', async () => {
+    const { client, factory } = fakeSDK()
+    client.identity.me.mockResolvedValue({ ...identity(), scopes: undefined })
+    await expect(register(config, factory)).rejects.toThrow('unexpected response')
   })
   it('defaults to sandbox and refuses live credentials before creating a client', async () => {
     const { factory } = fakeSDK()
@@ -55,7 +69,7 @@ describe('configuration and registration', () => {
   })
   it('sanitizes authentication failures without an error cause', async () => {
     const { client, factory } = fakeSDK()
-    client.platform.capabilities.mockRejectedValue(new AuthenticationError({ status: 401, code: 'invalid_token',
+    client.identity.me.mockRejectedValue(new AuthenticationError({ status: 401, code: 'invalid_token',
       message: 'secret_provider_payload', details: config.apiKey }))
     try { await register(config, factory); expect.fail('Expected registration failure') }
     catch (error) {
@@ -66,12 +80,12 @@ describe('configuration and registration', () => {
   })
   it('rejects mismatched environments', async () => {
     const { client, factory } = fakeSDK()
-    client.platform.capabilities.mockResolvedValue({ ...fixture('Capabilities'), environment: 'live' })
+    client.identity.me.mockResolvedValue(identity({ environment: 'live' }))
     await expect(register(config, factory)).rejects.toThrow('environment did not match')
   })
   it('rejects credentials that can decide approvals', async () => {
     const { client, factory } = fakeSDK()
-    client.platform.capabilities.mockResolvedValue({ ...fixture('Capabilities'), scopes: ['approval:decide'] })
+    client.identity.me.mockResolvedValue(identity({ scopes: ['fax:read', 'approval:decide'] }))
     await expect(register(config, factory)).rejects.toThrow('without approval:decide')
   })
   it('also enforces sandbox on action execution', async () => {

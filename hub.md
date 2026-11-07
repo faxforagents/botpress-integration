@@ -8,7 +8,7 @@ Read delivery status, received documents, and extracted fields through Botpress 
 Create an API key in the [dashboard](https://app.faxforagents.com/).
 Enter it in the integration's secret API key field.
 Leave Sandbox enabled and use an `ffa_test_` credential.
-Registration checks capabilities and rejects live credentials in sandbox mode.
+Registration checks the key's identity and scopes and rejects live credentials in sandbox mode.
 
 ## Use
 

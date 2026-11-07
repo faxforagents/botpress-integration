@@ -2,7 +2,7 @@ import { FaxForAgents } from 'faxforagents'
 import { RuntimeError } from '@botpress/sdk'
 import { inputSchemas, dataSchemas, type ActionName, type Input, type Result } from '../definitions/actions'
 import { configurationSchema, type Configuration } from '../definitions/configuration'
-import { CapabilitiesSchema, ExtractionPageListSchema } from '../definitions/responses'
+import { ExtractionPageListSchema, MeSchema } from '../definitions/responses'
 import { ActionError, failure } from './errors'
 import { guide } from './guide'
 
@@ -32,12 +32,14 @@ function configuration(raw: Configuration) {
 export async function register(raw: Configuration, factory: ClientFactory = defaultFactory) {
   try {
     const config = configuration(raw)
-    const parsed = CapabilitiesSchema.safeParse(await factory(config.apiKey).platform.capabilities())
+    // GET /v1/me describes this key. GET /v1/capabilities lists every scope the platform offers,
+    // which always includes approval:decide, so it must not be used for this check.
+    const parsed = MeSchema.safeParse(await factory(config.apiKey).identity.me())
     if (!parsed.success) throw new ActionError('invalid_response')
-    const capabilities = parsed.data
+    const identity = parsed.data
     const expected = config.apiKey.startsWith('ffa_test_') ? 'test' : 'live'
-    if (capabilities.environment !== expected) throw new ActionError('environment_mismatch')
-    if (capabilities.scopes.includes('approval:decide')) throw new ActionError('unsafe_scope')
+    if (identity.environment !== expected) throw new ActionError('environment_mismatch')
+    if (identity.scopes.includes('approval:decide')) throw new ActionError('unsafe_scope')
   } catch (error) {
     throw new RuntimeError(failure(error).message)
   }

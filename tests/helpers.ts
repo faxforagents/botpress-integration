@@ -19,6 +19,12 @@ export function review(overrides: Record<string, unknown> = {}) {
     decided_at: null, notified: true, ...overrides,
   }
 }
+export function identity(overrides: Record<string, unknown> = {}) {
+  return {
+    org_id: 'org_fixture', project_id: 'prj_fixture', key_id: 'key_fixture', key_prefix: 'ffa_test_',
+    environment: 'test' as const, scopes: ['fax:read', 'fax:send'], actor: 'agent', ...overrides,
+  }
+}
 export function extraction(overrides: Record<string, unknown> = {}) {
   return {
     id: 'ext_' + '6'.repeat(32), kind: 'extract' as const, status: 'queued' as const, environment: 'test' as const,
@@ -55,8 +61,7 @@ export function fakeSDK() {
     },
     extractions: { list: vi.fn().mockResolvedValue({ items: [], next_cursor: null }), create: vi.fn().mockResolvedValue(extraction()) },
     platform: { capabilities: vi.fn().mockResolvedValue(fixture('Capabilities')) },
-    identity: { me: vi.fn().mockResolvedValue({ org_id: 'org_fixture', project_id: 'prj_fixture', key_id: 'key_fixture',
-      key_prefix: 'ffa_test_', environment: 'test', scopes: [], actor: 'agent' }) },
+    identity: { me: vi.fn().mockResolvedValue(identity()) },
     billing: { balance: vi.fn().mockResolvedValue(fixture('Balance')) },
   } satisfies SDKClient
   return { client, factory: vi.fn(() => client) }

@@ -19,7 +19,8 @@ it('connects the Botpress prepare action to the configured SDK', async () => {
 })
 it('connects registration to credential validation', async () => {
   await integration.register({ ctx: { configuration: config } } as Parameters<typeof integration.register>[0])
-  expect(state.client?.platform.capabilities).toHaveBeenCalledOnce()
+  expect(state.client?.identity.me).toHaveBeenCalledOnce()
+  expect(state.client?.platform.capabilities).not.toHaveBeenCalled()
 })
 it('refuses unconfigured webhook traffic', async () => {
   expect(await integration.webhook({} as Parameters<typeof integration.webhook>[0])).toMatchObject({ status: 404 })

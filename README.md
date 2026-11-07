@@ -18,7 +18,7 @@
 
 Build the integration locally with `npm ci && npm run build`.
 Node.js 22.12 or later is required.
-Version 0.1.0 is prepared for Hub submission and has not been published.
+Version 0.1.1 fixes the registration scope check. Hub verification is in progress.
 Fax for Agents is made by JSB Holdings LLC.
 
 ## Local checks
@@ -46,7 +46,7 @@ Vitest uses fake SDK clients and never sends a fax.
 After deployment, install the integration in your bot.
 Enter your credential in the secret `apiKey` field.
 Leave `sandbox` enabled and use an `ffa_test_` credential.
-Registration calls capabilities and rejects mismatched environments and approval-decision scopes.
+Registration reads the key's own identity and rejects mismatched environments and approval-decision scopes.
 Actions also reject live credentials while sandbox is enabled.
 
 Use `+15550000001` for simulated delivery without carrier traffic or sending charges.

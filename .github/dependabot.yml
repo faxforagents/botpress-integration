@@ -1,0 +1,16 @@
+# Weekly grouped dependency updates. Minor and patch bumps arrive as one PR
+# per ecosystem and directory. Majors come as their own PRs.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    groups:
+      npm-minor:
+        update-types: [minor, patch]
+  - package-ecosystem: npm
+    directory: /examples/fax-approval-bot
+    schedule: { interval: weekly, day: monday }
+    groups:
+      npm-examples-fax-approval-bot-minor:
+        update-types: [minor, patch]

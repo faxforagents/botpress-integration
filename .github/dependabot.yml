@@ -8,6 +8,15 @@ updates:
     groups:
       npm-minor:
         update-types: [minor, patch]
+    ignore:
+      # The package runs on Node 22 (engines >=22.12). Types for a newer Node describe APIs the runtime
+      # lacks; the types move when the Node floor moves (PR 3, 2026-11-09).
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # vite 8 cannot resolve next to the Botpress toolchain: its esbuild 0.28 peer conflicts with the
+      # esbuild the Botpress SDK pins (ERESOLVE, tested 2026-11-09, PR 5). Back when the SDK and vitest move.
+      - dependency-name: "vite"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: npm
     directory: /examples/fax-approval-bot
     schedule: { interval: weekly, day: monday }

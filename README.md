@@ -13,7 +13,13 @@
   <a href="https://faxforagents.com/docs/sdks/">SDKs</a> ·
   <a href="https://faxforagents.com/mcp/">MCP</a> ·
   <a href="https://app.faxforagents.com">Dashboard</a> ·
+  <a href="https://faxforagents.com/pricing/">Pricing</a> ·
   <a href="https://faxforagents.com/changelog/">Changelog</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-MIT-1f6feb" alt="MIT licence"></a>
+  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-22.12%2B-339933" alt="Node 22.12+"></a>
 </p>
 
 Build the integration locally with `npm ci && npm run build`.

@@ -36,8 +36,8 @@ No action decides approvals or manages policies.
 
 ## Pricing
 
-Prices were checked on November 4, 2026.
-The displayed launch-v2 rate table takes effect on October 31, 2026.
+Prices were checked on November 12, 2026.
+The displayed launch-v3 rate table takes effect on November 12, 2026.
 
 | Item | USD price |
 | --- | --- |

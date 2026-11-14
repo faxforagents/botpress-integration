@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.2, November 14, 2026
+## 1.0.0, November 14, 2026
 
-Follow API 1.20.3. Not deployed to Botpress yet.
+Follow API 1.20.3. The version is 1.0.0 because the output of `extractFaxData` lost a field, and Botpress counts that as a breaking change.
 
 - `extractFaxData` answered `invalid_response` since API 1.19.0. The API stopped sending `provider_cost_micro`, and the response check required it.
 - The response schemas come from the public OpenAPI document at 1.20.3. A quote and a fax carry `quality`, `sender_name` and `delete_after_send`. A balance carries `top_up_url`.

@@ -1,6 +1,6 @@
 {
   "name": "@faxforagents/botpress-integration",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "private": true,
   "description": "Fax for Agents actions for Botpress.",
   "license": "MIT",

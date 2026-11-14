@@ -25,7 +25,7 @@
 
 Build the integration locally with `npm ci && npm run build`.
 Node.js 22.12 or later is required.
-Version 0.1.2 follows API 1.20.3 and waits for its Botpress deploy.
+Version 1.0.0 follows API 1.20.3.
 Version 0.1.1 fixes the registration scope check. Hub verification is in progress.
 Fax for Agents is made by JSB Holdings LLC.
 

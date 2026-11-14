@@ -4,7 +4,7 @@ import { configurationSchema } from './definitions/configuration'
 
 export default new IntegrationDefinition({
   name: 'faxforagents',
-  version: '0.1.2',
+  version: '1.0.0',
   title: 'Fax for Agents',
   description: 'Prepare and quote faxes, request human review, send approved faxes, and read received documents.',
   icon: 'icon.svg',

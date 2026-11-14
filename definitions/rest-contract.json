@@ -1,7 +1,7 @@
 {
   "source": "https://github.com/faxforagents/openapi/blob/main/openapi.yaml",
-  "retrieved": "2026-11-04",
-  "sha256": "44ad09d1e3d015db0e155991fc6fc326bc577c607ddc0013bd2b6e68ef14a90f",
+  "retrieved": "2026-11-14",
+  "sha256": "26a82a0d211c4d2e1ad378e85bf63191583831011b4a9860d3284907191dded7",
   "schemas": {
     "Document": {
       "properties": {
@@ -299,6 +299,27 @@
           ],
           "title": "Cover"
         },
+        "quality": {
+          "type": "string",
+          "title": "Quality",
+          "default": "fine"
+        },
+        "sender_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sender Name"
+        },
+        "delete_after_send": {
+          "type": "boolean",
+          "title": "Delete After Send",
+          "default": false
+        },
         "authorization_required": {
           "type": "boolean",
           "title": "Authorization Required"
@@ -458,6 +479,27 @@
           "type": "integer",
           "title": "Cover Pages"
         },
+        "quality": {
+          "type": "string",
+          "title": "Quality",
+          "default": "fine"
+        },
+        "sender_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sender Name"
+        },
+        "delete_after_send": {
+          "type": "boolean",
+          "title": "Delete After Send",
+          "default": false
+        },
         "pages_sent": {
           "type": "integer",
           "title": "Pages Sent"
@@ -546,6 +588,28 @@
           ],
           "title": "Evidence",
           "description": "The carrier's evidence once delivered or partial; null before."
+        },
+        "one_time_order_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "One Time Order Id",
+          "description": "The one-time order this fax was paid by; null for a wallet fax."
+        },
+        "one_time": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/OneTimeJob"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": true,
@@ -1375,10 +1439,6 @@
           "type": "integer",
           "title": "Price Micro"
         },
-        "provider_cost_micro": {
-          "type": "integer",
-          "title": "Provider Cost Micro"
-        },
         "currency": {
           "type": "string",
           "title": "Currency"
@@ -1460,7 +1520,6 @@
         "output",
         "models",
         "price_micro",
-        "provider_cost_micro",
         "currency",
         "error_code",
         "created_by",
@@ -1624,12 +1683,27 @@
           "type": "boolean",
           "title": "Approvals"
         },
+        "extraction": {
+          "type": "boolean",
+          "title": "Extraction"
+        },
+        "extraction_pricing": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Extraction Pricing",
+          "description": "What POST /v1/extractions charges, in micro-units. page_micro is for every page read. escalated_page_micro is added for a page the stronger model reads again. max_pages is the most pages one extraction reads. Sandbox extractions are free."
+        },
         "limits": {
           "additionalProperties": {
             "type": "integer"
           },
           "type": "object",
           "title": "Limits"
+        },
+        "one_time": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "One Time"
         }
       },
       "additionalProperties": true,
@@ -1648,7 +1722,9 @@
         "rates",
         "scopes",
         "approvals",
-        "limits"
+        "extraction",
+        "limits",
+        "one_time"
       ],
       "title": "Capabilities"
     },
@@ -1724,6 +1800,18 @@
         "held_micro": {
           "type": "integer",
           "title": "Held Micro"
+        },
+        "top_up_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Top Up Url",
+          "description": "The dashboard page where a person adds funds to the wallet. A key cannot top up."
         }
       },
       "additionalProperties": true,
@@ -1735,6 +1823,135 @@
         "held_micro"
       ],
       "title": "Balance"
+    },
+    "OneTimeJob": {
+      "properties": {
+        "order_id": {
+          "type": "string",
+          "title": "Order Id"
+        },
+        "status": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "draft",
+                "checkout_open",
+                "authorized",
+                "awaiting_confirmation",
+                "released",
+                "capturing",
+                "canceling",
+                "captured",
+                "released_hold",
+                "expired",
+                "refused",
+                "settle_failed"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Status"
+        },
+        "amount_micro": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Amount Micro"
+        },
+        "captured_micro": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Captured Micro"
+        },
+        "refunded_micro": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Refunded Micro",
+          "description": "What was refunded to the card after the charge, in micro-units."
+        },
+        "document_pages": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Document Pages",
+          "description": "The pages of the order's document. The cover sheet is not counted."
+        },
+        "card": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/OneTimeCard"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "order_id"
+      ],
+      "title": "OneTimeJob",
+      "description": "The order behind a fax job that a one-time send made: what was authorized, what was charged."
+    },
+    "OneTimeCard": {
+      "properties": {
+        "last4": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last4"
+        },
+        "brand": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Brand"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "last4",
+        "brand"
+      ],
+      "title": "OneTimeCard"
     }
   }
 }

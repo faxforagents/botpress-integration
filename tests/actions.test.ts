@@ -27,7 +27,7 @@ describe('definition and action contract', () => {
     expect(Object.keys(actions).sort()).toEqual([...names, 'sendFax'].sort())
     expect(definition.name).toBe('faxforagents')
     expect(definition.version).toBe(pkg.version)
-    expect(definition.version).toBe('0.1.1')
+    expect(definition.version).toBe('0.1.2')
   })
   it.each(Object.keys(actions) as ActionName[])('%s returns the advertised output schema', async (name) => {
     const { factory } = fakeSDK()

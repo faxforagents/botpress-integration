@@ -221,6 +221,7 @@
         "fax:read"
       ],
       "approvals": true,
+      "extraction": true,
       "limits": {},
       "one_time": {
         "enabled": false,
@@ -244,8 +245,7 @@
       "escalated": false,
       "fast_read": true,
       "strong_read": false,
-      "warnings": [],
-      "cost_micro": 0
+      "warnings": []
     }
   }
 ]

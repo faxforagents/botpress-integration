@@ -1,6 +1,6 @@
 {
   "name": "@faxforagents/botpress-integration",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Fax for Agents actions for Botpress.",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@botpress/sdk": "7.2.11",
-    "faxforagents": "0.2.5"
+    "faxforagents": "0.6.0"
   },
   "devDependencies": {
     "@botpress/cli": "7.1.12",

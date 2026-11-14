@@ -52,12 +52,30 @@ export const QuoteSchema = z.object({
   "per_page_micro": z.number().int().optional(),
   "route_label": z.string().optional(),
   "cover": z.union([z.record(z.any()), z.null()]),
+  "quality": z.string().optional(),
+  "sender_name": z.union([z.string(), z.null()]).optional(),
+  "delete_after_send": z.boolean().optional(),
   "authorization_required": z.boolean(),
   "warnings": z.array(z.record(z.any())),
   "expires_at": z.string(),
   "expired": z.boolean(),
   "consumed_by_job_id": z.union([z.string(), z.null()]),
   "created_at": z.string()
+})
+
+export const OneTimeCardSchema = z.object({
+  "last4": z.union([z.string(), z.null()]),
+  "brand": z.union([z.string(), z.null()])
+})
+
+export const OneTimeJobSchema = z.object({
+  "order_id": z.string(),
+  "status": z.union([z.enum(["draft","checkout_open","authorized","awaiting_confirmation","released","capturing","canceling","captured","released_hold","expired","refused","settle_failed"]), z.null()]).optional(),
+  "amount_micro": z.union([z.number().int(), z.null()]).optional(),
+  "captured_micro": z.union([z.number().int(), z.null()]).optional(),
+  "refunded_micro": z.union([z.number().int(), z.null()]).optional(),
+  "document_pages": z.union([z.number().int(), z.null()]).optional(),
+  "card": z.union([OneTimeCardSchema, z.null()]).optional()
 })
 
 export const FaxJobSchema = z.object({
@@ -75,6 +93,9 @@ export const FaxJobSchema = z.object({
   "quote_id": z.union([z.string(), z.null()]),
   "billable_pages": z.number().int(),
   "cover_pages": z.number().int(),
+  "quality": z.string().optional(),
+  "sender_name": z.union([z.string(), z.null()]).optional(),
+  "delete_after_send": z.boolean().optional(),
   "pages_sent": z.number().int(),
   "amount_micro": z.number().int(),
   "captured_micro": z.number().int(),
@@ -87,7 +108,9 @@ export const FaxJobSchema = z.object({
   "updated_at": z.string(),
   "completed_at": z.union([z.string(), z.null()]),
   "cancel_requested_at": z.union([z.string(), z.null()]),
-  "evidence": z.union([z.record(z.any()), z.null()]).optional()
+  "evidence": z.union([z.record(z.any()), z.null()]).optional(),
+  "one_time_order_id": z.union([z.string(), z.null()]).optional(),
+  "one_time": z.union([OneTimeJobSchema, z.null()]).optional()
 })
 
 export const FaxJobPageSchema = z.object({
@@ -211,7 +234,6 @@ export const ExtractionSchema = z.object({
   "output": z.union([z.record(z.any()), z.null()]),
   "models": z.record(z.any()),
   "price_micro": z.number().int(),
-  "provider_cost_micro": z.number().int(),
   "currency": z.string(),
   "error_code": z.union([z.string(), z.null()]),
   "created_by": z.string(),
@@ -240,7 +262,10 @@ export const CapabilitiesSchema = z.object({
   "rates": z.record(z.any()),
   "scopes": z.array(z.string()),
   "approvals": z.boolean(),
-  "limits": z.record(z.number().int())
+  "extraction": z.boolean(),
+  "extraction_pricing": z.record(z.any()).optional(),
+  "limits": z.record(z.number().int()),
+  "one_time": z.record(z.any())
 })
 
 export const MeSchema = z.object({
@@ -257,5 +282,6 @@ export const BalanceSchema = z.object({
   "environment": z.enum(["live","test"]),
   "currency": z.string(),
   "available_micro": z.number().int(),
-  "held_micro": z.number().int()
+  "held_micro": z.number().int(),
+  "top_up_url": z.union([z.string(), z.null()]).optional()
 })

@@ -25,6 +25,7 @@
 
 Build the integration locally with `npm ci && npm run build`.
 Node.js 22.12 or later is required.
+Version 0.1.2 follows API 1.20.3 and waits for its Botpress deploy.
 Version 0.1.1 fixes the registration scope check. Hub verification is in progress.
 Fax for Agents is made by JSB Holdings LLC.
 
@@ -45,7 +46,7 @@ npm run check:example
 ```
 
 Dependencies are pinned in `package.json` and `package-lock.json`.
-They include Botpress CLI 7.1.12, Botpress SDK 7.2.11, and `faxforagents` 0.2.5.
+They include Botpress CLI 7.1.12, Botpress SDK 7.2.11, and `faxforagents` 0.6.0.
 Vitest uses fake SDK clients and never sends a fax.
 
 ## Configure
@@ -83,6 +84,9 @@ Inputs retain the canonical snake_case field names.
 | `listInbox` | `list_inbox` | Read one received-fax page |
 | `readInboundFax` | `read_inbound_fax` | Read received text and metadata |
 | `extractFaxData` | `extract_fax_data` | Reuse or create OCR and structured extraction |
+
+The [hosted MCP server](https://faxforagents.com/mcp/) lists 17 tools.
+Its two card tools, `request_card_payment` and `get_card_payment_status`, are not in this integration.
 
 Events and channels are empty.
 Use actions to poll reviews, delivery status, and received documents.

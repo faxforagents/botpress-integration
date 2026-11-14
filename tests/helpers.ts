@@ -31,7 +31,7 @@ export function extraction(overrides: Record<string, unknown> = {}) {
     document_id: ids.document, inbox_item_id: ids.inbox, schema_id: null, schema: null,
     options: { strong_model_if_below: 0.75 }, pages_requested: 1, pages_processed: 0,
     pages_escalated: 0, document_pages: 1, confidence: null, pages: [], output: null,
-    models: {}, price_micro: 0, provider_cost_micro: 0, currency: 'USD', error_code: null,
+    models: {}, price_micro: 0, currency: 'USD', error_code: null,
     created_by: 'agent', created_at: '2026-11-04T00:00:00Z', started_at: null, completed_at: null,
     ...overrides,
   }

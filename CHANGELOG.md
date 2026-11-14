@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2, November 14, 2026
+
+Follow API 1.20.3. Not deployed to Botpress yet.
+
+- `extractFaxData` answered `invalid_response` since API 1.19.0. The API stopped sending `provider_cost_micro`, and the response check required it.
+- The response schemas come from the public OpenAPI document at 1.20.3. A quote and a fax carry `quality`, `sender_name` and `delete_after_send`. A balance carries `top_up_url`.
+- The SDK dependency is `faxforagents` 0.6.0. It was 0.2.5.
+- The README says the hosted MCP server has two card tools this integration does not have.
+
 ## 0.1.1, November 7, 2026
 
 Fix the registration scope check.

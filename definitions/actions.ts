@@ -50,14 +50,31 @@ export const inputSchemas = {
       subject: z.string().max(200).optional(),
       message: z.string().max(2000).optional(),
     }).strict().nullish(),
+    quality: z.enum(['standard', 'fine', 'superfine', 'ultra']).nullish(),
+    sender_name: z.string().min(1).max(128).regex(/^[A-Za-z0-9 _~!.+-]+$/).nullish(),
+    from_number: z.string().regex(/^\+[1-9]\d{1,14}$/).nullish(),
+    delete_after_send: z.boolean().nullish(),
     ...idempotency,
   }).strict(),
   sendApprovedFax: sendInput,
   sendFax: sendInput,
   getFaxStatus: z.object({ fax_id: id('fax') }).strict(),
-  listFaxes: z.object({ ...page, state: z.enum(['queued', 'active', 'delivered', 'partial', 'failed', 'unknown']).nullish() }).strict(),
+  listFaxes: z.object({
+    ...page,
+    state: z.enum(['queued', 'active', 'delivered', 'partial', 'failed', 'unknown']).nullish(),
+    idempotency_key: z.string().min(1).max(255).nullish(),
+  }).strict(),
   getFaxBalance: empty,
   cancelFax: z.object({ fax_id: id('fax'), ...idempotency }).strict(),
+  requestCardPayment: z.object({
+    quote_id: id('quote'),
+    cover_from_name: z.string().min(2).max(120),
+    approval_id: optionalId('apr').describe('Required by this integration for every card order. The API checks approval and quote binding.'),
+    email: z.string().min(3).max(254).nullish(),
+    delete_after_send: z.boolean().nullish(),
+    ...idempotency,
+  }).strict(),
+  getCardPaymentStatus: z.object({ order_id: id('oto') }).strict(),
   requestHumanReview: z.object({
     message: z.string().max(2000),
     quote_id: optionalId('quote'),
@@ -76,6 +93,52 @@ export const inputSchemas = {
   }).strict(),
 } as const
 
+// What an agent sees of a card payment order. The payer's address, the card, the checkout address
+// and the status token are left out, as the hosted tools leave them out.
+const nullable = { text: z.string().nullable(), flag: z.boolean().nullable() }
+export const CardPaymentOrderSchema = z.object({
+  id: z.string(),
+  status: z.enum(['draft', 'checkout_open', 'authorized', 'awaiting_confirmation', 'released', 'capturing', 'canceling',
+    'captured', 'released_hold', 'expired', 'refused', 'settle_failed']),
+  next: z.enum(['checkout', 'confirm', 'wait', 'done']),
+  environment: z.string(),
+  source: z.string(),
+  email_verified: z.boolean(),
+  aup_accepted: nullable.flag,
+  sender_name: z.string(),
+  to: z.string(),
+  route: z.string(),
+  cover: z.record(z.any()).nullable(),
+  document_pages: z.number().int(),
+  document_sha256: z.string(),
+  document_id: nullable.text,
+  delete_after_send: nullable.flag,
+  document_deleted: nullable.flag,
+  price: z.object({
+    price_version: z.string(),
+    currency: z.string(),
+    flat_micro: z.number().int(),
+    included_pages: z.number().int(),
+    extra_page_micro: z.number().int(),
+    cover_included: z.boolean(),
+  }),
+  amount_micro: z.number().int(),
+  captured_micro: z.number().int(),
+  refunded_micro: z.number().int().nullable(),
+  checkout_expires_at: nullable.text,
+  authorized_at: nullable.text,
+  confirm_deadline_at: nullable.text,
+  capture_deadline_at: nullable.text,
+  released_at: nullable.text,
+  settled_at: nullable.text,
+  quote_id: nullable.text,
+  fax_job_id: nullable.text,
+  failure_code: nullable.text,
+  created_at: z.string(),
+  updated_at: z.string(),
+})
+export const cardOrderKeys = Object.keys(CardPaymentOrderSchema.shape)
+
 export const dataSchemas = {
   getGuide: z.object({ text: z.string(), sections: z.array(z.string()) }),
   getFaxCapabilities: z.object({ capabilities: r.CapabilitiesSchema, identity: r.MeSchema }),
@@ -88,6 +151,13 @@ export const dataSchemas = {
   listFaxes: r.FaxJobPageSchema,
   getFaxBalance: r.BalanceSchema,
   cancelFax: r.FaxJobSchema,
+  requestCardPayment: z.object({ one_time_send: CardPaymentOrderSchema, status_url: z.string().nullable() }),
+  getCardPaymentStatus: z.object({
+    one_time_send: CardPaymentOrderSchema,
+    status_url: z.string().nullable(),
+    fax: r.FaxJobSchema.nullable(),
+    attempts: z.array(r.AttemptSchema),
+  }),
   requestHumanReview: r.ApprovalRequestSchema,
   getReviewStatus: r.ApprovalRequestSchema.extend({ approval_id: z.string().nullable() }),
   listInbox: r.InboxPageSchema,
@@ -118,10 +188,10 @@ function describedInput<S extends z.AnyZodObject>(schema: S, canonical: keyof ty
   return schema.extend(shape) as S
 }
 
-function define<N extends ActionName>(name: N, canonical: keyof typeof catalog.tools, title: string) {
+function define<N extends ActionName>(name: N, canonical: keyof typeof catalog.tools, title: string, note = '') {
   return {
     title,
-    description: catalog.tools[canonical].description.split('. ')[0] + '.',
+    description: catalog.tools[canonical].description.split('. ')[0] + '.' + note,
     input: { schema: describedInput(inputSchemas[name], canonical) },
     output: { schema: z.object({
       ok: z.boolean().title('Succeeded').describe('Whether the action completed successfully. Stop the workflow when false.'),
@@ -146,6 +216,10 @@ export const actions = {
   listFaxes: define('listFaxes', 'list_faxes', 'List faxes'),
   getFaxBalance: define('getFaxBalance', 'get_fax_balance', 'Get fax balance'),
   cancelFax: define('cancelFax', 'cancel_fax', 'Cancel fax'),
+  requestCardPayment: define('requestCardPayment', 'request_card_payment', 'Request card payment',
+    ' Returns status_url, the page where a person accepts the terms and pays. It never takes card details, and nothing is sent until they pay.'),
+  getCardPaymentStatus: define('getCardPaymentStatus', 'get_card_payment_status', 'Get card payment status',
+    ' It cannot pay, confirm or send.'),
   requestHumanReview: define('requestHumanReview', 'request_human_review', 'Request human review'),
   getReviewStatus: define('getReviewStatus', 'get_review_status', 'Get review status'),
   listInbox: define('listInbox', 'list_inbox', 'List inbox'),

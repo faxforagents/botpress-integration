@@ -24,6 +24,11 @@ Reuse the exact key and payload when retrying.
 A new operation needs a new key.
 Stop on `ok=false` and follow the returned remedy.
 
+`requestCardPayment` asks a person to pay for one quoted fax by card.
+It needs a live credential and an approval ID, and it returns a payment link for the person.
+No action takes card details or pays.
+Poll `getCardPaymentStatus` until `next` is `done`.
+
 Poll `getFaxStatus` until the fax reaches a terminal state.
 Never resend partial or unknown outcomes automatically.
 Use `listInbox` and `readInboundFax` for received documents.

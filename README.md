@@ -25,6 +25,7 @@
 
 Build the integration locally with `npm ci && npm run build`.
 Node.js 22.12 or later is required.
+Version 1.1.0 adds the two card payment actions and the newer quote options.
 Version 1.0.0 follows API 1.20.3.
 Version 0.1.1 fixes the registration scope check. Hub verification is in progress.
 Fax for Agents is made by JSB Holdings LLC.
@@ -79,6 +80,8 @@ Inputs retain the canonical snake_case field names.
 | `listFaxes` | `list_faxes` | Read one outbound page |
 | `getFaxBalance` | `get_fax_balance` | Read available and held funds |
 | `cancelFax` | `cancel_fax` | Request cancellation |
+| `requestCardPayment` | `request_card_payment` | Ask a person to pay for one quoted fax by card |
+| `getCardPaymentStatus` | `get_card_payment_status` | Read a card payment order and its fax |
 | `requestHumanReview` | `request_human_review` | Request approval or human help |
 | `getReviewStatus` | `get_review_status` | Read a review decision |
 | `listInbox` | `list_inbox` | Read one received-fax page |
@@ -86,7 +89,9 @@ Inputs retain the canonical snake_case field names.
 | `extractFaxData` | `extract_fax_data` | Reuse or create OCR and structured extraction |
 
 The [hosted MCP server](https://faxforagents.com/mcp/) lists 17 tools.
-Its two card tools, `request_card_payment` and `get_card_payment_status`, are not in this integration.
+This integration has an action for each of them, and the `sendFax` alias.
+`quoteFax` takes `quality`, `sender_name`, `from_number` and `delete_after_send`.
+`listFaxes` takes `idempotency_key` as a filter that finds the send made with that key.
 
 Events and channels are empty.
 Use actions to poll reviews, delivery status, and received documents.
@@ -110,8 +115,30 @@ The integration does not preflight consumed approvals, so identical idempotent r
 No action approves, rejects, or revokes requests.
 Help requests grant no send authorization.
 
+## Card payment
+
+`requestCardPayment` asks a person to pay for one quoted fax by card, with no wallet balance.
+It returns `data.status_url`. Give that link to the person.
+They accept the acceptable use policy and the terms there, and they pay there.
+No action takes card details, and no action can pay or confirm.
+Nothing is sent until the person pays. The card is charged only for pages the carrier reports as arrived.
+
+A card order is always live, so the action needs an `ffa_live_` credential with sandbox disabled.
+It refuses a test credential with `live_required` before calling the API.
+It also requires `approval_id`, like every live send here, even when the account has a delegated policy.
+`cover_from_name` is printed on the cover page that the order adds.
+The price is the card price of the rate card, which differs from the quote's per-page amount.
+
+Poll `getCardPaymentStatus` with the order ID.
+`data.one_time_send.next` is `checkout`, `confirm`, `wait` or `done`.
+`data.status_url` is set while the person still has to pay or confirm, and null after that.
+Once the fax is released, `data.fax` and `data.attempts` hold its delivery state and the carrier's evidence.
+The result leaves out the payer's address, the card and the status token.
+
+## Idempotency and delivery
+
 Persist a caller `idempotency_key` before every mutation.
-This includes preparation, quotes, review requests, extraction, cancellation, and sending.
+This includes preparation, quotes, review requests, card payment requests, extraction, cancellation, and sending.
 Reuse the exact key and payload after timeouts or lost responses.
 Keys contain 1 to 255 characters without surrounding whitespace.
 A new operation needs a new key.

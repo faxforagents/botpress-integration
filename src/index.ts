@@ -18,6 +18,8 @@ export default new bp.Integration({
     listFaxes: ({ input, ctx }) => execute('listFaxes', input, ctx.configuration),
     getFaxBalance: ({ input, ctx }) => execute('getFaxBalance', input, ctx.configuration),
     cancelFax: ({ input, ctx }) => execute('cancelFax', input, ctx.configuration),
+    requestCardPayment: ({ input, ctx }) => execute('requestCardPayment', input, ctx.configuration),
+    getCardPaymentStatus: ({ input, ctx }) => execute('getCardPaymentStatus', input, ctx.configuration),
     requestHumanReview: ({ input, ctx }) => execute('requestHumanReview', input, ctx.configuration),
     getReviewStatus: ({ input, ctx }) => execute('getReviewStatus', input, ctx.configuration),
     listInbox: ({ input, ctx }) => execute('listInbox', input, ctx.configuration),

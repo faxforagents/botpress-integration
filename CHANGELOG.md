@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0, November 14, 2026
+
+Follow the hosted MCP server at API 1.20.3, which lists 17 tools. This version adds actions and optional inputs only.
+
+- New action `requestCardPayment`: ask a person to pay for one quoted fax by card. It returns `status_url` for the person. It never takes card details.
+- New action `getCardPaymentStatus`: read the order, and the fax with its attempts once it is released.
+- `requestCardPayment` needs a live credential and an `approval_id`. It refuses both gaps before calling the API.
+- Card results leave out the payer's address, the card and the status token.
+- `quoteFax` takes `quality`, `sender_name`, `from_number` and `delete_after_send`.
+- `listFaxes` takes `idempotency_key`, a filter that finds the send made with that key.
+- The guide has the sections `one_time` and `going_live`. Five card refusal codes have their own remedy.
+- `definitions/tool-definitions.json` is the hosted catalog of 17 tools. `cancel_fax` is marked idempotent there.
+- No existing output schema changed.
+
 ## 1.0.0, November 14, 2026
 
 Follow API 1.20.3. The version is 1.0.0 because the output of `extractFaxData` lost a field, and Botpress counts that as a breaking change.

@@ -1,0 +1,40 @@
+name: ci
+
+# Runs the local checks of the README on every push to main and on pull requests.
+# Actions are pinned by commit SHA, with the version in a comment.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A new push to a pull request cancels the run it replaces. Every other run has a group of its own.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: build, types, Botpress lint, tests and the example bot
+    runs-on: ubuntu-latest
+    env:
+      # Keeps the Botpress CLI's files inside the checkout. No Botpress login is needed.
+      BP_BOTPRESS_HOME: ${{ github.workspace }}/.bp-home
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+          # .npmrc points the npm cache at .npm-cache, and setup-node caches that directory.
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run check:type
+      - run: npm run check:bplint
+      - run: npm test
+      - run: npm run build:example
+      - run: npm run check:example

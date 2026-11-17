@@ -19,6 +19,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/faxforagents/botpress-integration/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/faxforagents/botpress-integration/ci.yml?branch=main&label=ci" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-MIT-1f6feb" alt="MIT licence"></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-22.12%2B-339933" alt="Node 22.12+"></a>
 </p>
@@ -45,6 +46,8 @@ npm test
 npm run build:example
 npm run check:example
 ```
+
+The [ci workflow](.github/workflows/ci.yml) runs the same commands on every push to main and on each pull request.
 
 Dependencies are pinned in `package.json` and `package-lock.json`.
 They include Botpress CLI 7.1.12, Botpress SDK 7.2.11, and `faxforagents` 0.6.0.

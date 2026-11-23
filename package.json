@@ -21,14 +21,14 @@
     "check:example": "tsc --noEmit -p examples/fax-approval-bot/tsconfig.json"
   },
   "dependencies": {
-    "@botpress/sdk": "7.2.12",
-    "faxforagents": "0.6.0"
+    "@botpress/sdk": "7.2.13",
+    "faxforagents": "0.11.3"
   },
   "devDependencies": {
-    "@botpress/cli": "7.1.13",
+    "@botpress/cli": "7.1.14",
     "@types/node": "22.20.5",
     "typescript": "7.0.2",
     "vite": "7.3.8",
-    "vitest": "5.1.0"
+    "vitest": "5.1.1"
   }
 }
